@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>水平垂直居中</title>
+  <style>
+    .box {
+      width: 200px;
+      height: 200px;
+      border: 1px solid red;
+      position: relative;
+    }
+
+    .children-box {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: yellow;
+      left: 50%;
+      top: 50%;
+      margin-left: -50px;
+      margin-top: -50px;
+    }
+
+    .children-box1 {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: yellow;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .children-box2 {
+      position: absolute;
+      display: inline;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0px;
+      background: yellow;
+      margin: auto;
+      height: 100px;
+      width: 100px;
+    }
+
+    .box-flex {
+      width: 200px;
+      height: 200px;
+      border: 1px solid red;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .children-box-flex {
+      background: yellow;
+      height: 100px;
+      width: 100px;
+    }
+
+    .box-grid {
+      width: 200px;
+      height: 200px;
+      border: 1px solid red;
+      display: grid;
+    }
+
+    .children-box-grid {
+      width: 100px;
+      height: 100px;
+      background: yellow;
+      margin: auto;
+    }
+
+    .box-table-cell {
+      width: 200px;
+      height: 200px;
+      border: 1px solid red;
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .children-box-table-cell {
+      width: 100px;
+      height: 100px;
+      background: yellow;
+      display: inline-block;
+      /* 可以换成margin: auto; */
+    }
+
+    /* ===分割线 */
+    .box-free {
+      width: 200px;
+      height: 200px;
+      border: 1px solid red;
+      position: relative;
+    }
+
+    .children-box-free {
+      position: absolute;
+      background: yellow;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .box-free-table-cell {
+      width: 200px;
+      height: 200px;
+      border: 1px solid red;
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .children-box-free-table-cell {
+      background: yellow;
+      display: inline-block;
+    }
+
+    .box-free-flex {
+      width: 200px;
+      height: 200px;
+      border: 1px solid red;
+      display: flex;
+    }
+
+    .children-box-free-flex {
+      background: yellow;
+      margin: auto;
+    }
+
+    .box-free-grid {
+      width: 200px;
+      height: 200px;
+      border: 1px solid red;
+      display: grid;
+    }
+
+    .children-box-free-grid {
+      background: yellow;
+      align-self: center;
+      justify-self: center;
+    }
+
+    .box-pic-after {
+      width: 200px;
+      height: 200px;
+      border: 1px solid red;
+      text-align: center;
+    }
+
+    .box-pic-after::after {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      height: 100%;
+    }
+
+    img {
+      vertical-align: middle;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 style="color: brown;">定宽高</h1>
+  <h2>绝对定位和负magin值</h2>
+  <div class="box">
+    <div class="children-box"></div>
+  </div>
+  <h2>绝对定位 + transform</h2>
+  <div class="box">
+    <div class="children-box1"></div>
+  </div>
+  <h2>绝对定位 + left/right/bottom/top + margin</h2>
+  <div class="box">
+    <div class="children-box2"></div>
+  </div>
+  <h2>flex</h2>
+  <div class="box-flex">
+    <div class="children-box-flex"></div>
+  </div>
+  <h2>grid/兼容性相对差</h2>
+  <div class="box-grid">
+    <div class="children-box-grid"></div>
+  </div>
+  <h2>table-cell + vertical-align + inline-block/margin: auto</h2>
+  <div class="box-table-cell">
+    <div class="children-box-table-cell"></div>
+  </div>
+
+  ===============分割线===============
+
+  <h1 style="color: darkgreen;">不定宽高</h1>
+  <h2>绝对定位 + transform</h2>
+  <div class="box-free">
+    <div class="children-box-free">111111</div>
+  </div>
+  <h2>table-cell</h2>
+  <div class="box-free-table-cell">
+    <div class="children-box-free-table-cell">111111</div>
+  </div>
+  <h2>普通flex 省略</h2>
+  <h2>flex变异布局/grid雷同</h2>
+  <div class="box-free-flex">
+    <div class="children-box-free-flex">11111111</div>
+  </div>
+
+  <h2>grid + flex布局</h2>
+  <div class="box-free-grid">
+    <div class="children-box-free-grid">11111111</div>
+  </div>
+  <h1>图片定位</h1>
+  <h2>::after/before雷同</h2>
+  <div class="box-pic-after">
+    <img src="https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/242dd42a2834349b406751a3ceea15ce36d3beb6.jpg">
+  </div>
+
+
+
+</body>
+
+</html>
