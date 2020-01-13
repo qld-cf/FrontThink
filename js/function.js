@@ -48,3 +48,35 @@ function _indexOf(string, target) { // 字符串
 	let mt = string.match(new RegExp(target))
 	return mt ? mt.index : -1;
 }
+
+/**
+ * 匿名函数
+ */
+
+let fn = function fn1(params) {
+  console.log(fn1) //内部可以使用
+}
+
+console.log(fn)
+console.log(fn1) // undefiend
+
+/**
+ * 函数柯里话化
+ * 只传递给函数一部分参数来调用它，让它返回一个函数去处理剩下的参数。
+ */
+
+// var sum = function (a, b) {
+//   return a + b;
+// }
+// var sumCurrying = function(a) {
+//   return function(b) {
+//       return a + b;
+//   }
+// }
+// sum(1, 2); //3
+// sumCurrying(1)(2); //3
+
+
+
+
+

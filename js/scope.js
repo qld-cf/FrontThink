@@ -69,4 +69,32 @@ fn.call(obj, ...arr) // => fn(10,20,30)
 //console.time('time')
 // for(let i = 0;i< 1000000;i++){}
 // console.timeEnd('time')
+//==========================================================================================
 
+// 循环输出和闭包应用/bind/块级作用域/自执行
+
+
+for (var i = 0; i < 10; i++) {
+  setTimeout(() => {
+    console.log(i)
+  }, 100)
+}
+
+for (let i = 0; i < 10; i++) {
+  setTimeout(() => {
+    console.log(i)
+  }, 100)
+}
+
+for (let i = 0; i < 10; i++) {
+  ~function () {
+    setTimeout(() => {
+      console.log(i)
+    }, 100)
+  }()
+}
+
+var fn = function (i) { console.log(i) }
+for (var i = 0; i < 10; i++) {
+  setTimeout(fn.bind(null, i), 100) // 基于bind预先处理机制，将i预先传给函数
+}
