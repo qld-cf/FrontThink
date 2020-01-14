@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>手动实现简答轮播图</title>
+  <!-- 实现思路
+    1. left或者translateX控制图片偏移量实现图片滑动(left会重绘dom，较性能情况下translateX更优)
+    2. settimeout和清除定时器
+    3. 无缝轮播： 第一张前放最后一张图片，最后一张图后放第一张图片
+    4. 轮播到第一张和最后一张时要做对应处理
+    5. 全屏宽高或者滑动动画可用js控制
+  -->
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .container {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    margin: 100px auto 0 auto;
+    box-shadow: 0 0 5px green;
+    overflow: hidden;
+  }
+
+  .container .wrap {
+    position: absolute;
+    width: 4200px;
+    height: 400px;
+    z-index: 1;
+  }
+
+  .container .wrap img {
+    float: left;
+    width: 600px;
+    height: 400px;
+  }
+
+  .container .buttons {
+    position: absolute;
+    right: 5px;
+    bottom: 40px;
+    width: 150px;
+    height: 10px;
+    z-index: 2;
+  }
+
+  .container .buttons span {
+    margin-left: 5px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: green;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+  }
+
+  .container .buttons span.on {
+    background-color: red;
+  }
+
+  .container .arrow {
+    position: absolute;
+    top: 35%;
+    color: green;
+    padding: 0px 14px;
+    border-radius: 50%;
+    font-size: 50px;
+    z-index: 2;
+    display: none;
+  }
+
+  .container .arrow_left {
+    left: 10px;
+  }
+
+  .container .arrow_right {
+    right: 10px;
+  }
+
+  .container:hover .arrow {
+    display: block;
+  }
+
+  .container .arrow:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+</style>
+
+<body>
+
+  <div class="container">
+    <div class="wrap" style="left: -600px;">
+      <img src="http://sc.jb51.net/uploads/allimg/130112/2-1301122130215H.jpg" alt="5">
+      <img src="http://pic.netbian.com/uploads/allimg/190614/213132-1560519092a8b4.jpg" alt="1">
+      <img src="http://pic.netbian.com/uploads/allimg/160926/160017-14748768171147.jpg" alt="2">
+      <img
+        src="http://h.hiphotos.baidu.com/lvpics/w=600/sign=6570942cbf12c8fcb4f3f5cdcc0292b4/d01373f082025aafb3f498c7fdedab64024f1af3.jpg"
+        alt="3">
+      <img
+        src="http://f.hiphotos.baidu.com/lvpics/w=600/sign=4351b6aa8694a4c20a23e42b3ef51bac/024f78f0f736afc3ece868c0b219ebc4b64512aa.jpg"
+        alt="4">
+      <img src="http://sc.jb51.net/uploads/allimg/130112/2-1301122130215H.jpg" alt="5">
+      <img src="http://pic.netbian.com/uploads/allimg/190614/213132-1560519092a8b4.jpg" alt="1">
+    </div>
+    <div class="buttons">
+      <span class="on">1</span>
+      <span>2</span>
+      <span>3</span>
+      <span>4</span>
+      <span>5</span>
+    </div>
+    <a href="javascript:;" class="arrow arrow_left">&lt;</a>
+    <a href="javascript:;" class="arrow arrow_right">&gt;</a>
+  </div>
+  <script>
+    var wrap = document.querySelector(".wrap");
+    var next = document.querySelector(".arrow_right");
+    var prev = document.querySelector(".arrow_left");
+    next.addEventListener('click', function (params) {
+      next_pic();
+    })
+    next.onclick = function () {
+    }
+    prev.onclick = function () {
+      prev_pic();
+    }
+    function next_pic() {
+      index++;
+      if (index > 4) {
+        index = 0;
+      }
+      showCurrentDot();
+      var newLeft;
+      if (wrap.style.left === "-3600px") {
+        newLeft = -1200;
+      } else {
+        newLeft = parseInt(wrap.style.left) - 600;
+      }
+      wrap.style.left = newLeft + "px";
+    }
+    function prev_pic() {
+      index--;
+      if (index < 0) {
+        index = 4;
+      }
+      showCurrentDot();
+      var newLeft;
+      if (wrap.style.left === "0px") {
+        newLeft = -2400;
+      } else {
+        newLeft = parseInt(wrap.style.left) + 600;
+      }
+      wrap.style.left = newLeft + "px";
+    }
+    var timer = null;
+    function autoPlay() {
+      timer = setInterval(function () {
+        next_pic();
+      }, 2000);
+    }
+    autoPlay();
+
+    var container = document.querySelector(".container");
+    container.onmouseenter = function () {
+      clearInterval(timer);
+    }
+    container.onmouseleave = function () {
+      autoPlay();
+    }
+
+    var index = 0;
+    var dots = document.getElementsByTagName("span");
+    function showCurrentDot() {
+      for (var i = 0, len = dots.length; i < len; i++) {
+        dots[i].className = "";
+      }
+      dots[index].className = "on";
+    }
+
+    for (var i = 0, len = dots.length; i < len; i++) {
+      (function (i) {
+        dots[i].onclick = function () {
+          var dis = index - i;
+          if (index == 4 && parseInt(wrap.style.left) !== -3000) {
+            dis = dis - 5;
+          }
+          if (index == 0 && parseInt(wrap.style.left) !== -600) {
+            dis = 5 + dis;
+          }
+          wrap.style.left = (parseInt(wrap.style.left) + dis * 600) + "px";
+          index = i;
+          showCurrentDot();
+        }
+      })(i);
+    }
+  </script>
+</body>
+
+</html>
