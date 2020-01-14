@@ -1,4 +1,4 @@
-#### 动手走一遍mdn文档，即可大致了解原型和原型链关系
+#### 动手走一遍mdn文档，即可大致了解原型和原型链关系
 
 ![ava](https://raw.githubusercontent.com/qld-cf/savePics/master/prototype/p1.jpg)
 
