@@ -3,7 +3,7 @@
  */
 
 /**
- * `fetch`请求
+ * fetch封装
  * @dec learn：https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API
  * @param {'GET'|'POST'} method 请求方法
  * @param {string} url 请求路径
@@ -65,9 +65,10 @@ function fetchRequest() {
     console.warn('Fetch fail', err);
   })
 }
+//==========================================================================================
 
 /**
- * `XMLHttpRequest`请求
+ * 手写一个ajax
  * @dec learn: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
  * @param {object} param 传参对象
  * @param {string} param.url 请求路径
@@ -163,8 +164,11 @@ function myAjax(param) {
 
   XHR.send(dataPost);
 }
+//==========================================================================================
 
-// 简洁版
+/**
+ * 手写ajax简洁版
+ */
 function smallAjax(method, url, data, success, fail) {
   const XHR = new XMLHttpRequest();
   /** 请求参数 */
@@ -197,28 +201,20 @@ function smallAjax(method, url, data, success, fail) {
   XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   XHR.send(sendData);
 }
+//==========================================================================================
 
 // 应用
 
-const BASEURL = 'http://che.qihao.lzei.com';
+const BASEURL = 'http://t.weather.sojson.com/api/weather/city/101030100';
 function ajaxRequest() {
   const error = {
     message: '',
     info: null
   }
   myAjax({
-    url: BASEURL + '/api/app/parking',
-    method: 'post',
+    url: BASEURL,
+    method: 'get',
     data: {
-      appkey: 'e2fb20ea3f3df33310788a4247834c93',
-      token: '2a11d6d67a8b8196afbcefbac3e0a573',
-      page: '1',
-      limit: '7',
-      longitude: '113.30764968',
-      latitude: '23.1200491',
-      sort: 'distance',
-      order: 'asc',
-      keyword: ''
     },
     overtime: 5000,
     success: function (res) {
@@ -246,3 +242,89 @@ function ajaxRequest() {
     }
   });
 }
+//==========================================================================================
+
+/**
+ * 手写axios
+ */
+~ function () {
+  let myAxios = function (option) {
+    let url = option.url || '',
+      method = option.method || 'GET',
+      baseURL = option.baseURL || '',
+      data = option.data || null,
+      dataType = option.dataType || 'JSON',
+      headers = option.headers || {},
+      cache = option.cache || true,
+      params = option.params || null;
+    const formatData = function () {
+      let str = ``;
+      for (let attr in obj) {
+        if (obj.hasOwnProperty(attr)) {
+          str += `${attr}=${obj[attr]}&`;
+        }
+        return str.substring(0, str.length - 1)
+      }
+    }
+
+    const check = function check(url) {
+      return url.indexOf('?') > -1 ? '&' : '?';
+    }
+    //=>把传递的参数进一步进行处理
+    if (/^(GET|DELETE|HEAD|OPTIONS)$/.test(method)) {
+      //GET参数
+      if (params) {
+        url += `${check(url)}${formatData(params)}`
+      }
+      if (cache === false) {
+        url += `${check(url)}_=${+(new Date())}`
+      }
+      data = null;//GET系列请求主体为空
+    } else {
+      //POST系列
+      if (data) {
+        data = formatData(data);
+      }
+    }
+    //=>基于Promise发送Ajax
+    return new Promise((resolve, reject) => {
+      let xhr = new XMLHttpRequest();
+      xhr.open(method, `${baseURL}${url}`);
+      if (headers != null && typeof headers === 'object') {
+        for (let attr in headers) {
+          if (headers.hasOwnProperty(attr)) {
+            let val = headers[attr];
+            if (/[\u4e00-\u9fa5]/.test(val)) {
+              val = encodeURIComponent(val);
+            }
+            xhr.setRequestHeader(attr, headers[attr]);
+          }
+        }
+      }
+      //=>如果headers存在，我们需要设置请求头
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (/^(2|3)\d{2}$/.test(xhr.status)) {
+            let result = xhr.responseText;
+            dataType = dataType.toUpperCase();
+            dataType === 'JSON' ? result = JSON.parse(result) : (dataType === 'XML' ? result = xhr.responseXML : null);
+            resolve(result, xhr);
+            return;
+          }
+          reject(xhr.statusText, xhr);
+        }
+      }
+      xhr.send(data);
+    })
+  }
+
+  myAxios({
+    url: 'http://t.weather.sojson.com/api/weather/city/101030100',
+    method: 'get',
+    // data
+  }).then(e => {
+    console.log(e)
+  })
+}()
+
+

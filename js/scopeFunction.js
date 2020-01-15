@@ -91,6 +91,7 @@ getName(); // getName已经被Foo所改变  output 1
 new Foo.getName(); // .的优先级最高 => new (Foo.getName)() => new (function (params) { console.log(2) }) output 2
 new Foo().getName(); // => (new Foo()).getName() => foo.getName() 实例对象找属性，遵循隐式原型链查找（先找本身，没有则沿prototype,最终找到Object） =>3
 new new Foo().getName(); // -> new ((new Foo()).getName)() -> new (foo.getName)() -> 3
+//==========================================================================================
 
 
 /**
