@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>angularjs脏检查实现</title>
+</head>
+<style type="text/css">
+  button {
+    height: 60px;
+    width: 100px;
+  }
+
+  p {
+    margin-left: 20px;
+  }
+</style>
+
+<body>
+  <div>
+    <button type="button" ng-click="increase">增加</button>
+    <button type="button" ng-click="decrease">减少</button> 数量：
+    <span ng-bind="data">0</span>
+  </div>
+  <br>
+</body>
+<script>
+  window.onload = function () {
+    /**
+     * 声明构造函数
+     */
+    function Scope() {
+      this.$$watchList = []; // angular内部会声明一个数组(包含监听的对象)，在digest执行时去遍历
+    }
+
+    /**
+     * 属性赋值给$scope
+     * 类似angular解析controller的模板，把模板中的属性解析出来，属性赋值给$scope
+     */
+    Scope.prototype.getNewValue = function () {
+      return $scope[this.name];
+    }
+
+    /**
+     * 实现监听
+     */
+    Scope.prototype.$watch = function (name, listener) {
+      let watch = {
+        name: name,
+        getNewValue: this.getNewValue,
+        listener: listener || function () { }
+      };
+      // 当作用域创建时，angular会去解析模板，$watch用来绑定监听值和监听函数
+      this.$$watchList.push(watch);
+    }
+
+    /**
+    * 检查dirty，循环更新scope上的最新值
+    */
+    Scope.prototype.$digest = function () {
+      console.log('$digest');
+      let dirty = true; // 默认dirty变量为true
+      let checkTimes = 0;
+      while (dirty) {
+        dirty = this.$valScope();
+        checkTimes++;
+        if (checkTimes > 10 && dirty) {
+          throw new Error("循环过多");
+        }
+      }
+    }
+
+    /**
+     * 验证值是否有变化
+     */
+    Scope.prototype.$valScope = function () {
+      let dirty;
+      let list = this.$$watchList;
+      for (let i = 0; i < list.length; i++) {
+        let watch = list[i];
+        let newValue = watch.getNewValue();
+        let oldValue = watch.last || undefined;
+        if (newValue !== oldValue) {
+          watch.listener(newValue, oldValue);
+          dirty = true; // 如果新旧值不同，则继续遍历
+        } else {
+          dirty = false;
+        }
+        watch.last = newValue;
+      }
+      return dirty;
+    }
+
+    /**
+     * 刷新scope
+     */
+    Scope.prototype.$apply = function (params) {
+      let list = document.querySelectorAll('[ng-bind]');
+      console.log('list', list)
+      for (let i = 0, l = list.length; i < l; i++) {
+        let bindData = list[i].getAttribute('ng-bind');
+        console.log('bindData', bindData)
+        console.log('list[i]', list[i])
+        list[i].innerHTML = $scope[bindData];
+      }
+    }
+
+    let $scope = new Scope(); // 实例化，声明$scope对象集合
+    $scope.data = 0;
+    $scope.increase = function () {
+      this.data++;
+    };
+    $scope.decrease = function () {
+      this.data--;
+    };
+
+    $scope.$watch('data', function(newValue, oldValue) { // 监听
+        console.log("new: " + newValue + "=========" + "old: " + oldValue);
+    });
+
+
+    // 手动为button按钮添加onclick事件，并为通过闭包为其绑定了全局scope对象，绑定apply方法
+    // 类似angular内部实现
+    function startBind() {
+      let list = document.querySelectorAll('[ng-click]');
+      for (let i = 0, l = list.length; i < l; i++) {
+        list[i].onclick = (function (index) {
+          return function () {
+            let func = this.getAttribute('ng-click');
+            $scope[func]($scope);
+            $scope.$digest();
+            $scope.$apply()
+          }
+        })(i)
+      }
+    }
+
+    // 初始化
+    startBind();
+  }
+
+</script>
+
+</html>

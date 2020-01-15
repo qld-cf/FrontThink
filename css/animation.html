@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>css动画 - animation</title>
+  <style>
+    .wraper {
+      width: 40px;
+      height: 40px;
+      background: #0ff;
+    }
+
+    .animation-1 {
+      border-radius: 50%;
+      animation: animation-1-move 2s linear 3 alternate both;
+    }
+
+    @keyframes animation-1-move {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      100% {
+        transform: translate(200px, 0);
+      }
+    }
+
+    .animation-2 {
+      animation: animation-2-rotate 2s;
+    }
+
+    @keyframes animation-2-rotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .animation-3 {
+      animation: animation-3-move 6s linear both;
+    }
+
+    @keyframes animation-3-move {
+
+      0%,
+      66% {
+        transform: translate(0, 0);
+      }
+
+      33%,
+      100% {
+        transform: translate(200px, 0);
+      }
+    }
+
+    .animation-4 {
+      height: 10px;
+      border: 1px solid;
+      background: linear-gradient(#0ff, #0ff);
+      background-repeat: no-repeat;
+      background-size: 0;
+      animation: animation-4-move 2s linear forwards;
+    }
+
+    @keyframes animation-4-move {
+      100% {
+        background-size: 100%;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>animation-1</h2>
+    <div class="wraper animation-1"></div>
+    <h2>animation-2</h2>
+    <div class="wraper animation-2"></div>
+    <h2>animation-3</h2>
+    <div class="wraper animation-3"></div>
+    <h2>animation-4</h2>
+    <div class="animation-4"></div>
+
+  </div>
+
+</body>
+
+</html>
