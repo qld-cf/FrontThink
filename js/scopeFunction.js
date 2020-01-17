@@ -117,3 +117,63 @@ function _new(fn, ...args) {
 
 let _ani = _new(Animal, '狗子');
 _ani.sayName();
+
+
+/**
+ * 3. es5/es6 实现继承
+ */
+
+//ES5 Version
+function Person(firstName, lastName, age, address) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.age = age;
+  this.address = address;
+  this.getFullName = function () {
+    return this.firstName + this.lastName;
+  }
+}
+
+function Employee(jobTitle, yearStarted) {
+  this.jobTitle = jobTitle;
+  this.yearStarted = yearStarted;
+  Person.call(this);
+}
+
+Employee.prototype = Object.create(Person.prototype);
+Employee.prototype.constructor = Employee
+
+Employee.prototype.describe = function () {
+  return `I am ${this.getFullName()} and I have a position of ${this.jobTitle} and I started at ${this.yearStarted}`;
+}
+
+var employee1 = new Employee('yoyo','yeye');
+employee1.firstName = 'lebron';
+employee1.lastName = 'james';
+console.log(employee1.describe()) // I am lebronjames and I have a position of yoyo and I started at yeye
+
+
+
+//ES6 Version
+class Employee extends Person { //Inherits from "Person" class
+  constructor(firstName, lastName, age, address, jobTitle, yearStarted) {
+    super(firstName, lastName, age, address);
+    this.jobTitle = jobTitle;
+    this.yearStarted = yearStarted;
+  }
+  describe() {
+    return `class extends: I am ${this.getFullName()} and I have a position of ${this.jobTitle} and I started at ${this.yearStarted}`;
+  }
+}
+
+function Person(firstName, lastName, age, address) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.age = age;
+  this.address = address;
+  this.getFullName = function () {
+    return this.firstName + this.lastName;
+  }
+}
+var e1 = new Employee('lebron', 'james', 10, 'address', 'yoyo', 'yeye');
+console.log(e1.describe())

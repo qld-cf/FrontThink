@@ -125,3 +125,8 @@ let res = A();
 ```
 
 [转自](https://juejin.im/post/5d116a9df265da1bb47d717b)
+
+
+#### 宏任务、微任务
+![ava](http://img.qingtingip.com/crawler/article/201953/807304f5121a439939078d5f8d06995c)
+

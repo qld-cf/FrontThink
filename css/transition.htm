@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>css - transition - 动画过渡</title>
+</head>
+<style>
+  .transition-p {
+    width: 100px;
+    height: 40px;
+    opacity: 0.6;
+    border-radius: 10px;
+    background: #03A9F4;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    transition: all 0.5s ease-in;
+  }
+
+  .transition-p:hover {
+    opacity: 1.0;
+    width: 120px;
+  }
+
+  .boll1 {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #03A9F4;
+    transform: translateY(0px);
+    margin-bottom: 300px;
+    transition: all cubic-bezier(0.42, 0, 0.58, 1) 2.0s 1.0s;
+    cursor: pointer
+  }
+
+  .boll1:hover {
+    transform: translateY(200px);
+  }
+</style>
+
+<body>
+  <h2>transition: width&opacity</h2>
+  <p class="transition-p">菜单一</p>
+
+  <h2>利用transition和transform结合实现动画过渡</h2>
+  <div class="boll1" id="boll1"></div>
+
+  <h3>日常的菜单交互,鼠标移进放大,小球下落等交互都可以使用transition实现,transition一般只有两个状态,始态和终态.一般只有两个状态的单次动画交互使用transition.
+  </h3>
+
+  <br />
+
+  <table>
+    <thead>
+      <tr>
+        <th>值</th>
+        <th>描述</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>transition-property</td>
+        <td>指定CSS属性的name，transition效果: 大小,位置,扭曲等</td>
+      </tr>
+      <tr>
+        <td>transition-duration</td>
+        <td>规定完成过渡效果需要花费的时间（以秒或毫秒计）。 默认值是 0，意味着不会有效果。</td>
+      </tr>
+      <tr>
+        <td>transition-timing-function</td>
+        <td>指定transition效果的转速曲线</td>
+      </tr>
+      <tr>
+        <td>transition-delay</td>
+        <td>定义transition效果开始的时候</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+</body>
+
+</html>

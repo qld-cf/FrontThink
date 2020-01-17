@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>transform - 元素变化</title>
+</head>
+<style>
+  .transform-box {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    background-color: #00f;
+  }
+
+  .middle-center {
+    background-color: #f00;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    color: #fff;
+  }
+
+  .transform-box {
+    display: flex;
+    text-align: center;
+
+  }
+
+  .white-container {
+    width: 200px;
+    flex: 0 0 200px;
+    margin-right: 20px;
+    background: #f1f1f1;
+  }
+
+  .gray-bg {
+    width: 100px;
+    height: 100px;
+    margin: 15px auto;
+    background: #ddd;
+    cursor: pointer;
+    box-shadow: 0 0 5px #ccc inset;
+  }
+
+  .blue-content {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    background: #03A9F4;
+    opacity: .5;
+    box-shadow: 0 0 5px #ccc;
+  }
+
+  .info-text {
+    color: #555;
+  }
+
+  .scale:hover .blue-content {
+    -webkit-transform: scale(1.5, 1.5);
+    transform: scale(1.5, 1.5);
+  }
+
+  .rotate:hover .blue-content {
+    -webkit-transform: rotate(45deg);
+    transform: scale(45deg);
+  }
+
+  .skew:hover .blue-content {
+    -webkit-transform: skew(45deg);
+    transform: skew(45deg);
+  }
+
+  .matrix:hover .blue-content {
+    -webkit-transform: matrix(2, 2, 0, 2, 45, 0);
+    transform: matrix(2, 2, 0, 2, 45, 0);
+  }
+
+  .boll-btn {
+    width: 100px;
+    height: 30px;
+    line-height: 28px;
+    border-radius: 5px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+
+  .boll {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #03A9F4;
+    transform: translateY(0px);
+    margin-bottom: 300px;
+  }
+</style>
+
+<body>
+
+  <h4>
+    rotate(旋转),scale(缩放),skew(扭曲),translate(移动)和matrix(矩阵变换).
+  </h4>
+  <h2 style="padding-top: 20px;">使用transition实现水平垂直居中</h2>
+  <div class="transform-box">
+    <div class="middle-center">
+      <p>水平垂直居中</p>
+      <p>宽度和高度由子元素撑开</p>
+    </div>
+  </div>
+
+  <h2>scale, rotate, skew, martix</h2>
+  <div class="transform-box">
+    <div class="white-container">
+      <div class="gray-bg scale">
+        <div class="blue-content">
+        </div>
+      </div>
+      <p class="info-text">scale(2)</p>
+    </div>
+    <div class="white-container">
+      <div class="gray-bg rotate">
+        <div class="blue-content">
+
+        </div>
+      </div>
+      <p class="info-text">rotate(45deg)</p>
+    </div>
+    <div class="white-container">
+      <div class="gray-bg skew">
+        <div class="blue-content">
+
+        </div>
+      </div>
+      <p class="info-text">skew(45deg)</p>
+    </div>
+
+    <div class="white-container">
+      <div class="gray-bg matrix">
+        <div class="blue-content">
+
+        </div>
+      </div>
+      <p class="info-text">matrix(2, 2, 0, 2, 45, 0)</p>
+    </div>
+  </div>
+
+
+  <h2>Js操作元素的transform属性值实现小球下落动效</h2>
+  <button class="boll-btn" id="boll-btn">点击小球下落</button>
+  <div class="boll" id="boll"></div>
+
+
+
+  <script>
+    const domBoll = document.getElementById('boll')
+    document.getElementById('boll-btn').onclick = function () {
+      let distance = 0
+      let timer = setInterval(() => {
+        if (distance >= 300) {
+          clearInterval(timer)
+        }
+        domBoll.style.transform = 'translateY(' + distance++ + 'px)'
+      }, 30)
+    }
+
+  </script>
+</body>
+
+</html>

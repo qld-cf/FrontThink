@@ -1,5 +1,5 @@
 /**
- * js中同步任务、宏任务和微任务介绍
+ * js中同步任务、宏任务和微任务介绍/ 参考 md/stack.md 中的任务执行流程图
  * 同步任务： 普通任务
  * 宏任务(异步任务，包括各种DOM事件) 来自于h5规范
  * 分类： I/O(网络，文件，数据库I/O) setTimeout  setInterval requestAnimationFrame(下次页面重绘前所执行的操作, 浏览器环境才有) setImmediate(nodejs才有)
