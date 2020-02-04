@@ -4,7 +4,7 @@
 
 /**
  * 1. 箭头函数更加简洁
- * 2. 箭头的this集成函数所处的上下文，涉及到this一般用function；
+ * 2. 箭头的this集成函数所处的上下文，它的this和定义这个箭头函数的父级上下文绑定在一起，普通函数则绑定该作用域上下文
  * 3. 箭头函数中没有arguments（类数组），能基于...args(剩余参数运算符)传递参数集合
  * 4. 箭头函数无法被new成实例， 它没有prototype原型（constructor），没有自身this
  */
@@ -39,7 +39,7 @@ fn2()
 //======================================================================================
 
 document.body.onclick = () => {
-  console.log('body this 箭头函数', this) // this: window 和定义这个箭头函数的父级上下文绑定在一起
+  console.log('body this 箭头函数', this) // this: window 它的this和定义这个箭头函数的父级上下文绑定在一起
 }
 
 var obj = {
