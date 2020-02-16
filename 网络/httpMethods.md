@@ -24,7 +24,7 @@ eg：
 - 206 Partial Content: 客户发送了一个带有Range头的GET请求，服务器完成了它，即：请求部分资源
 - 301 Moved Permamently: 已经永久转至新的url
 - 302 Found: 临时转至新的url，当一台服务器达到最大并发数，会转移服务器处理
-- 304 Not Modified: 服务器告诉客户，原来的缓存可以继续使用，如CSS/JS/HTML/IMG,Ctrl+F5 304缓存失效
+- 304 Not Modified: 服务器告诉客户，原来的`缓存`可以继续使用，如CSS/JS/HTML/IMG,Ctrl+F5 304缓存失效
 - 302 临时性重定向
 - 400 Bad Request: 客户端有语法错误，服务器不能理解
 - 401 Unauthorized: 请求未经授权
