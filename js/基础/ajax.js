@@ -2,6 +2,19 @@
  * 手写ajax、封装fetch
  */
 
+// 简易ajax
+var xhr = null;//创建对象
+if (window.XMLHttpRequest) {
+  xhr = new XMLHttpRequest();
+} else {
+  xhr = new ActiveXObject("Microsoft.XMLHTTP");
+}
+xhr.open('方式', '地址', '标志位');//初始化请求
+xhr.setRequestHeader('', '');//设置http头信息
+xhr.onreadystatechange = function () { }//指定回调函数
+xhr.send();//发送请求
+
+
 /**
  * fetch封装
  * @dec learn：https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API
